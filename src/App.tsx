@@ -1,14 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import MapPage from './Map/MapPage';
+import MapPage from './components/map/MapPage';
 
 function App() {
   return (
     <>
       <p>hello</p>
       <MapPage />
-      <p>bye</p>
+      <div>
+      </div>
     </>
   );
 }
