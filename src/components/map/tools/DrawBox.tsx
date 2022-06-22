@@ -1,50 +1,36 @@
-import { DomEvent, LatLng } from 'leaflet';
-import React from 'react';
-import { useMap, useMapEvent } from 'react-leaflet';
+import L, { LeafletEvent } from 'leaflet';
+import React, { useEffect } from 'react';
+import { useMap, useMapEvent, GeoJSON } from 'react-leaflet';
+import "leaflet-draw";
 
 export const DrawBox = () => {
     const [draw, setDraw] = React.useState(false);
-    const [firstPos, setFirstPos] = React.useState<any>();
-    const [secondPos, setSecondPos] = React.useState<any>();
-    const [geo, setGeo] = React.useState([null]);
+    const [aGeo, setGeo] = React.useState(null);
     const map = useMap();
+    const coolguy = new (L as any).Draw.Rectangle(map);
 
     const divref = React.useRef();
 
-    React.useEffect(() => {
+    useMapEvent('draw:created' as any, (e: LeafletEvent) => {
+        setGeo(e.layer.toGeoJSON());
+        coolguy.disable();
+        setDraw(false);
+    })
+
+    useEffect(() => {
         if (draw) {
-            
+            coolguy.enable();
         }
     }, [draw]);
 
-    React.useEffect(() => {
-        console.log('firstPos', firstPos);
-    }, [firstPos]);
-
-    React.useEffect(() => {
-        console.log('secondPos', secondPos);
-    }, [secondPos]);
-    
-    React.useEffect(() => {
-        console.log('DrawBox', draw);
-    }, [draw]);
-
-    useMapEvent('mousedown', (e) => {
-        if (draw && !firstPos) {
-            setFirstPos(e.latlng);
-        }
-        if (draw && firstPos) {
-            setSecondPos(e.latlng);
-        }
-    });
-
-    // useMapEvent('mouseup', (_e) => {
-    //     if (firstPos && secondPos) {
-    //         console.log('setting geo')
-    //     }
-    // });
-
-    return <button onClick={() => setDraw(!draw)}>
-        DrawBox
-    </button>;
+    return (
+        <> 
+            <button onClick={() => {
+                setDraw(true);
+            }}>
+                DrawBox
+            </button>
+            {aGeo && <GeoJSON data={aGeo} />}
+        </>
+    );
 }
