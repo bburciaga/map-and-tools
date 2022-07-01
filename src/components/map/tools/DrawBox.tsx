@@ -9,13 +9,11 @@ export const DrawBox = () => {
     const map = useMap();
     const coolguy = new (L as any).Draw.Rectangle(map);
 
-    const divref = React.useRef();
-
     useMapEvent('draw:created' as any, (e: LeafletEvent) => {
         setGeo(e.layer.toGeoJSON());
         coolguy.disable();
         setDraw(false);
-    })
+    });
 
     useEffect(() => {
         if (draw) {
@@ -24,13 +22,12 @@ export const DrawBox = () => {
     }, [draw]);
 
     return (
-        <> 
-            <button onClick={() => {
-                setDraw(true);
+        <button
+            className='leaflet-control'
+            onClick={() => {
+                setDraw(!draw);
             }}>
-                DrawBox
-            </button>
-            {aGeo && <GeoJSON data={aGeo} />}
-        </>
+            Draw Box
+        </button>
     );
 }

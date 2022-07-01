@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import { DomEvent } from 'leaflet';
 import React from 'react';
 import { LayersControlProvider } from '../../contexts/map/layerControlContext';
@@ -7,16 +8,16 @@ export const DrawingBar = () => {
   const divref = React.useRef();
 
   React.useEffect(() => {
-    DomEvent.disableClickPropagation((divref as any)?.current);
-    DomEvent.disableScrollPropagation((divref as any)?.current);
-  });
+    L.DomEvent.disableClickPropagation((divref as any)?.current);
+    L.DomEvent.disableScrollPropagation((divref as any)?.current);
+  }, [divref.current]);
 
   return (
     <LayersControlProvider value={null as any}>
       <div
           ref={divref as any}
-          className="leaflet-bar leaflet-control"
-          style={{ display: "flex", flexDirection: "column" }}
+          className="leaflet-right leaflet-top leaflet-control"
+          style={{ display: 'static' }}
         >
           <DrawBox />
         </div>
