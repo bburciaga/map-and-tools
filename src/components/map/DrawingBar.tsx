@@ -3,6 +3,7 @@ import { DomEvent } from 'leaflet';
 import React from 'react';
 import { LayersControlProvider } from '../../contexts/map/layerControlContext';
 import { DrawBox } from './tools/DrawBox';
+import { DrawPolygon } from './tools/DrawPolygon';
 
 export const DrawingBar = () => {
   const divref = React.useRef();
@@ -20,6 +21,7 @@ export const DrawingBar = () => {
           style={{ display: 'static' }}
         >
           <DrawBox />
+          <DrawPolygon />
         </div>
     </LayersControlProvider>
   )
